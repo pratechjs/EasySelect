@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+    <link href="css/style-catalog.css" rel="stylesheet" />
+
+
+    <script src="js/jquery-1.10.2.js"></script>
+    <!--<script src="js/EasySelect.js"></script>-->
+    <script src="js/EasySelect-min.js"></script>
+
+     <script type="text/javascript">
+         $(document).ready(function () {
+
+             var data = new Array();
+
+             data.push({ text: 'UNO', value: 1 });
+             data.push({ text: 'DOS', value: 2 });
+             data.push({ text: 'TRES', value: 3 });
+             data.push({ text: 'CUATRO', value: 4 });
+             data.push({ text: 'CINCO', value: 5 });
+             data.push({ text: 'SEIS', value: 6 });
+             data.push({ text: 'SIETE', value: 7 });
+             data.push({ text: 'OCHO', value: 8 });
+             data.push({ text: 'NUEVE', value: 9 });
+             data.push({ text: 'DIEZ', value: 10 });
+
+
+             $("#mySelect").easySelect({
+
+                 options: data,
+
+                 optionClick:optionClickCallback,
+                 change: changeCallback,
+
+                 easing: 'swing',
+                 duration: 100,
+             });
+
+             $("#Div1").easySelect({
+                 defaultText:'OPCIONES',
+                 options: data,
+                
+             });
+
+
+         });
+
+         function changeCallback(evt, selectEvt) {
+             console.log(evt);
+             console.log(selectEvt);
+             $("#trace-events").append('<li>cambio: ' + selectEvt.selectedOption.value + '</li>');
+         }
+
+         function optionClickCallback(evt) {
+             console.log(evt);
+         }
+
+         function changeCallback2(evt, selectEvt) {
+             console.log(evt);
+             console.log(selectEvt);
+             $("#trace-events").append('<li>cambio: ' + selectEvt.selectedOption.value + '</li>');
+         }
+
+         function optionClickCallback2(evt) {
+             console.log(evt);
+         }
+
+    </script>
+    <title></title>
+</head>
+<body>
+
+     <div id="mySelect"></div>
+
+    <div>
+        <ul id="trace-events">
+        </ul>
+    </div>
+
+    <div id="Div1"></div>
+
+</body>
+</html>
