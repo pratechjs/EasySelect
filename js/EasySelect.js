@@ -11,12 +11,55 @@
         var $textHolder = buildTextHolder(this, options);
         var $ulContainer = buildOptions(this, options);
 
+        var autocompleteConcatText = '';
+
         setupOptionsClick($ulContainer, $textHolder, currentOption, options)
 
         this.click(function () {
             $ulContainer.toggle({ easing: options.easing, duration: options.duration });
 
         });
+
+
+        if (options.autocomplete === true) {
+            $textHolder.keyup(function (evt) {
+                if (evt.keyCode !== 13) {
+                    debug(evt.keyCode);
+
+                    if (evt.keyCode !== 8) {
+                        autocompleteConcatText += String.fromCharCode(evt.keyCode);
+                        
+                    } else {
+                        autocompleteConcatText = autocompleteConcatText.substring(0, autocompleteConcatText.length - 1);
+                        debug(autocompleteConcatText);
+                    }
+
+                    var selectOptions = $ulContainer.children();
+                    var txt = autocompleteConcatText.toLowerCase();
+
+                    debug(selectOptions);
+
+                    $.each(selectOptions, function (index, value) {
+
+                        var optionText = ($(value).text()).toLowerCase();
+
+                        debug(optionText.indexOf(txt));
+                        debug(optionText);
+                        debug(txt);
+
+                        if (optionText.indexOf(txt) === -1) {
+                            $(value).hide();
+                        } else {
+                            $(value).show();
+
+                        }
+
+                    });
+
+                    
+                }
+            });
+        }
 
         return this;
     };
@@ -27,6 +70,7 @@
         easing: 'swing',
         duration: 200,
         defaultText: '-Seleccione-',
+        autocomplete:false,
 
     };
 
@@ -52,10 +96,19 @@
     }
 
     function buildTextHolder(that, options) {
-        var $textHolder = $("<div/>").addClass("easy-text-holder selected-item")
-          .text(options.defaultText).appendTo(that);
+        if (options.autocomplete === true) {
+            var $textHolder = $("<input  type='text'/>").addClass("easy-text-holder selected-item")
+                            .text(options.defaultText).appendTo(that);
+            return $textHolder;
 
-        return $textHolder;
+        } else {
+            var $textHolder = $("<div/>").addClass("easy-text-holder selected-item")
+                            .text(options.defaultText).appendTo(that);
+
+            return $textHolder;
+        }
+
+        
     }
 
     function setupOptionsClick(ulContainer, textHolder, currentOption, options) {
@@ -94,7 +147,7 @@
 
     }
 
-    var debugEnable = false;
+    var debugEnable = true;
 
     function debug($obj) {
         if (debugEnable) {
