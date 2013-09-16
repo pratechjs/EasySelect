@@ -40,31 +40,31 @@
              $("#Div1").easySelect({
                  defaultText:'OPCIONES',
                  options: data,
-                 autocomplete :true,
-                
+                 autocomplete: true,
+                 change: changeCallback2,
              });
 
 
          });
 
          function changeCallback(evt, selectEvt) {
-             console.log(evt);
-             console.log(selectEvt);
+           
+          
              $("#trace-events").append('<li>cambio: ' + selectEvt.selectedOption.value + '</li>');
          }
 
          function optionClickCallback(evt) {
-             console.log(evt);
+
          }
 
          function changeCallback2(evt, selectEvt) {
-             console.log(evt);
-             console.log(selectEvt);
+            
              $("#trace-events").append('<li>cambio: ' + selectEvt.selectedOption.value + '</li>');
          }
 
          function optionClickCallback2(evt) {
-             console.log(evt);
+             $("#trace-events").append('<li>cambio: ' + selectEvt.selectedOption.value + '</li>');
+
          }
 
     </script>

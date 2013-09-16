@@ -4,11 +4,28 @@
 
         var currentOption = '';
 
+
+
+        // Plugin defaults
+        var defaults = {
+            easing: 'swing',
+            duration: 200,
+            defaultText: '-Seleccione-',
+            autocomplete: false,
+        };
+
+
         //opciones por defecto
-        var options = $.extend($.fn.easySelect.defaults, settings);
+        var options = $.extend(defaults, settings);
+
+        debug(options);
+       
 
         this.addClass("easy-select");
         var $textHolder = buildTextHolder(this, options);
+
+       
+
         var $ulContainer = buildOptions(this, options);
 
         var autocompleteConcatText = '';
@@ -24,28 +41,21 @@
         if (options.autocomplete === true) {
             $textHolder.keyup(function (evt) {
                 if (evt.keyCode !== 13) {
-                    debug(evt.keyCode);
 
                     if (evt.keyCode !== 8) {
                         autocompleteConcatText += String.fromCharCode(evt.keyCode);
                         
                     } else {
                         autocompleteConcatText = autocompleteConcatText.substring(0, autocompleteConcatText.length - 1);
-                        debug(autocompleteConcatText);
                     }
 
                     var selectOptions = $ulContainer.children();
                     var txt = autocompleteConcatText.toLowerCase();
 
-                    debug(selectOptions);
 
                     $.each(selectOptions, function (index, value) {
 
                         var optionText = ($(value).text()).toLowerCase();
-
-                        debug(optionText.indexOf(txt));
-                        debug(optionText);
-                        debug(txt);
 
                         if (optionText.indexOf(txt) === -1) {
                             $(value).hide();
@@ -64,15 +74,6 @@
         return this;
     };
 
-    // Plugin defaults
-    $.fn.easySelect.defaults = {
-
-        easing: 'swing',
-        duration: 200,
-        defaultText: '-Seleccione-',
-        autocomplete:false,
-
-    };
 
 
     function buildOptions(el, options) {
@@ -80,7 +81,6 @@
 
         var $ulContainer = $("<ul />").addClass("list-items").appendTo(el);
 
-        debug(options.selectData);
         if (options.options) {
 
 
@@ -96,6 +96,8 @@
     }
 
     function buildTextHolder(that, options) {
+
+        debug(options.autocomplete);
         if (options.autocomplete === true) {
             var $textHolder = $("<input  type='text'/>").addClass("easy-text-holder selected-item")
                             .text(options.defaultText).appendTo(that);
@@ -119,9 +121,17 @@
                 options.optionClick(evt);
             }
 
-            debug(currentOption);
-            textHolder.html($(this).html());
 
+            debug(options.autocomplete);
+
+            if (options.autocomplete === true) {
+                
+                textHolder.val($(this).html());
+
+            } else {
+                textHolder.html($(this).html());
+
+            }
 
             var selectedOption = { text: $(this).attr('easytext'), value: $(this).attr('easyvalue') }
 
@@ -129,7 +139,7 @@
 
 
 
-            if (currentOption.value != selectedOption.value) {
+            if (currentOption.value !== selectedOption.value) {
                 currentOption = selectedOption;
 
                 if (options.change) {
@@ -142,7 +152,7 @@
             }
 
 
-            debug(currentOption);
+           
         });
 
     }
